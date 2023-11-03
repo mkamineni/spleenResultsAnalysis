@@ -1,0 +1,23 @@
+#### Libraries
+library(dplyr)
+library(tidyverse)
+
+#### Data
+MGB_dia_1 <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Historical Identified Data Requests/MGBB Subjects With Genomic Data 03-2022/04-11-2022 PHENO DATA/PN16_20220406_135558-1_Dia.txt", header=TRUE, sep = "|", dec=".", colClasses = "character")
+MGB_dia_2 <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Historical Identified Data Requests/MGBB Subjects With Genomic Data 03-2022/04-11-2022 PHENO DATA/PN16_20220406_135558-2_Dia.txt", header=TRUE, sep = "|", dec=".", colClasses = "character")
+MGB_dia_3 <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Historical Identified Data Requests/MGBB Subjects With Genomic Data 03-2022/04-11-2022 PHENO DATA/PN16_20220406_135558-3_Dia.txt", header=TRUE, sep = "|", dec=".", colClasses = "character")
+MGB_dia <- rbind(MGB_dia_1, MGB_dia_2)
+MGB_dia <- rbind(MGB_dia, MGB_dia_3)
+rm(MGB_dia_1)
+rm(MGB_dia_2)
+rm(MGB_dia_3)
+MGB_prc_1 <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Historical Identified Data Requests/MGBB Subjects With Genomic Data 03-2022/04-11-2022 PHENO DATA/PN16_20220406_135558-1_Prc.txt", header=TRUE, sep = "|", dec=".", colClasses = "character")
+MGB_prc_2 <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Historical Identified Data Requests/MGBB Subjects With Genomic Data 03-2022/04-11-2022 PHENO DATA/PN16_20220406_135558-2_Prc.txt", header=TRUE, sep = "|", dec=".", colClasses = "character")
+MGB_prc_3 <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Historical Identified Data Requests/MGBB Subjects With Genomic Data 03-2022/04-11-2022 PHENO DATA/PN16_20220406_135558-3_Prc.txt", header=TRUE, sep = "|", dec=".", colClasses = "character")
+MGB_prc <- rbind(MGB_prc_1, MGB_prc_2)
+rm(MGB_prc_1)
+rm(MGB_prc_2)
+MGB_prc <- rbind(MGB_prc, MGB_prc_3)
+rm(MGB_prc_3)
+MGB_demo <- read.delim("~/Dropbox (Partners HealthCare)/MGBB/Phenotypes/Manual Curated/MGBB_Phenos_2CODE 2022-06-21.csv", header=TRUE, sep = ",", dec=".", colClasses = "character")
+MGB_link <- read.table("~/Dropbox (Partners HealthCare)/MGBB/Phenotypes/MGBB_Genomic_Data_Linker_2022-06-09.csv", sep = ",", header = T)
