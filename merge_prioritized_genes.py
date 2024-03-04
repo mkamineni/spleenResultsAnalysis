@@ -2,13 +2,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-trait = "grayemphasis"
-all_genes_path = "../Data/fuma_results/"+trait+"_common_var/genes.txt"
-nearest_path = "../Data/fuma_results/"+trait+"_common_var/nearest_genes_lead_snps.csv"
-pops_path = "../Data/fuma_results/"+trait+"_common_var/genes_highest_pops.csv"
-out_path =  "../Data/fuma_results/"+trait+"_common_var/all_prioritized_genes_lead.csv"
-table_out_path = "../Data/fuma_results/"+trait+"_common_var/table_prioritized_genes_lead.csv"
-filter_out_path = "../Data/fuma_results/"+trait+"_common_var/filtered_prioritized_genes_lead.csv"
+trait = "spleen_original_glcm_Id"
+all_genes_path = "../Data/fuma_results/"+trait+"/genes.txt"
+nearest_path = "../Data/fuma_results/"+trait+"/nearest_genes_lead_snps.csv"
+pops_path = "../Data/fuma_results/"+trait+"/genes_highest_pops.csv"
+out_path =  "../Data/fuma_results/"+trait+"/all_prioritized_genes_lead.csv"
+table_out_path = "../Data/fuma_results/"+trait+"/table_prioritized_genes_lead.csv"
+filter_out_path = "../Data/fuma_results/"+trait+"/filtered_prioritized_genes_lead.csv"
 
 def make_gene_to_prior_grid(df):
 	filt_genes = set()

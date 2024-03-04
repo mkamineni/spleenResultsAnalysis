@@ -1,6 +1,6 @@
 import pandas as pd
 
-dir = "../Data/fuma_results/grayemphasis_common_var/"
+dir = "../Data/fuma_results/spleen_original_shape_Flatness/"
 snp_annot_path = dir+"snps.txt"
 sig_snp_path = dir+"leadSNPs.txt"
 out_path = dir+"nearest_genes_lead_snps.csv"
