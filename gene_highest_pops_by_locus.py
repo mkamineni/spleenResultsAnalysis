@@ -1,9 +1,10 @@
 import pandas as pd
 
 
-pops_path = "../PoPs/out/r_grayinversediff.preds"
-fuma_path = "../Data/fuma_results/grayinversediff_common_var/genes.txt"
-out_path = "../Data/fuma_results/grayinversediff_common_var/genes_highest_pops.csv"
+trait = "spleen_original_glcm_Id"
+pops_path = "../PoPs/out/r_"+trait+".preds"
+fuma_path = "../Data/fuma_results/"+trait+"/genes.txt"
+out_path = "../Data/fuma_results/"+trait+"/genes_highest_pops.csv"
 
 fuma_res = pd.read_csv(fuma_path, sep = "\t")
 
