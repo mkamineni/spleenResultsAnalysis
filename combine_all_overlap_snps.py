@@ -2,6 +2,10 @@ import re
 import pandas as pd
 
 phenos = ["sphericity", "graynonuniform", "kurtosis", "graydependence", "grayemphasis", "grayinversediff"]
+phenos = ["spleen_original_glszm_GrayLevelNonUniformity", "spleen_original_shape_Sphericity", "spleen_original_glcm_Correlation", "spleen_original_firstorder_Energy", "spleen_original_gldm_SmallDependenceHighGrayLevelEmphasis", "spleen_original_gldm_GrayLevelVariance", "spleen_original_glszm_LargeAreaLowGrayLevelEmphasis", "spleen_original_glrlm_RunLengthNonUniformity", "spleen_original_glcm_Id", "spleen_original_glcm_Idn"]
+
+phenos = ["spleen_original_glszm_GrayLevelNonUniformity", "spleen_original_shape_Sphericity", "spleen_original_glcm_Correlation", "spleen_original_firstorder_Energy", "spleen_original_glszm_LargeAreaLowGrayLevelEmphasis", "spleen_original_glrlm_RunLengthNonUniformity", "spleen_original_glcm_Id", "spleen_original_glcm_Idn"]
+
 out_path = '../Data/overlap_CAD/all_overlap_snps.csv'
 
 pheno_to_snps = {}

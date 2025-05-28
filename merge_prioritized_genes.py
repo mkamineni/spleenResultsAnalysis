@@ -1,8 +1,19 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from argparse import ArgumentParser
 
-trait = "spleen_original_glcm_Id"
+if __name__=="__main__":
+    parser = ArgumentParser()
+
+    parser.add_argument('--trait', '-trait', 
+    	help = "feature", 
+    	default = None, 
+    	type = str)
+
+args = parser.parse_args()
+trait = args.trait
+
 all_genes_path = "../Data/fuma_results/"+trait+"/genes.txt"
 nearest_path = "../Data/fuma_results/"+trait+"/nearest_genes_lead_snps.csv"
 pops_path = "../Data/fuma_results/"+trait+"/genes_highest_pops.csv"
@@ -61,6 +72,9 @@ all_genes = pd.read_csv(all_genes_path, sep="\t", index_col=0)
 eqtl_genes = all_genes[all_genes["eqtlMapSNPs"]>0]
 eqtl_genes = eqtl_genes[["GenomicLocus", "symbol"]]
 eqtl_genes["GenomicLocus"] = eqtl_genes["GenomicLocus"].astype(str)
+
+print("Unique eqtl Genes")
+print(len(eqtl_genes.symbol.unique()))
 
 eqtl_genes = eqtl_genes.rename(columns = {"symbol":"eqtl_gene"})
 eqtl_genes = eqtl_genes.set_index('eqtl_gene').apply(lambda col:

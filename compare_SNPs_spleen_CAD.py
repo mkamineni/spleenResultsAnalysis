@@ -4,7 +4,7 @@ import pandas as pd
 pval_cad = 5*10^(-8)
 pval_spleen = 5*10^(-8)
 
-spleen_gwas_path = "../Data/gwas_results/filt_spleen_wo_heme_chr_spleen_original_glrlm_RunLengthNonUniformity.regenie.gz"
+spleen_gwas_path = "../Data/gwas_results/filt_spleen_wo_heme_chr_spleen_original_glcm_Idn.regenie.gz"
 cad_gwas_path = "../Data/gwas_results/cad_gwas.tsv"
 
 spleen_gwas = pd.read_csv(spleen_gwas_path, compression = 'gzip', sep = "\t")
@@ -14,7 +14,7 @@ spleen_gwas_sig = set(spleen_gwas[spleen_gwas["Pvalue"]<pval_spleen].ID)
 cad_gwas_sig = set(cad_gwas[cad_gwas["p_value"]<pval_cad].markername)
 
 print(len(spleen_gwas_sig))
-print(len(cad_gwas_sig.shape))
+print(len(cad_gwas_sig))
 
 inter = spleen_gwas_sig.intersecton(cad_gwas_sig)
 print(len(inter))
