@@ -15,8 +15,8 @@ library(gridExtra)
 file <- "../Data/radiomics_data/CADcohort_all_demo_rad_final_nov1.csv"
 file2 <- "../Data/radiomics_data/CAD_pat_char.csv"
 coefs <- read.csv(file, header=TRUE)
-out <- "../Data/figures/rad_heatmap.png"
-out_small <- "../Data/figures/rad_heatmap_select.png"
+out <- "../Data/figures/rad_heatmap.pdf"
+out_small <- "../Data/figures/rad_heatmap_select.pdf"
 
 colnames(coefs) <- gsub("spleen_original_", "", colnames(coefs))
 colnames(coefs) <- gsub("shape_", "", colnames(coefs))
@@ -67,15 +67,16 @@ m2[lower.tri(m2)]<- NA
 m2 = m2[o, o]
 
 
-e = pheatmap(m2,cluster_rows=hclust(dist(cor(df))), cluster_cols =hclust(dist(cor(df))), border_color ="gray", fontsize = 20, filename=out, width=30, height=30)
-t_df <- transpose(df)
-t_df$colors = splenic_feat_colors
+pheatmap(m2,fillename=out, cluster_rows=hclust(dist(cor(df))), cluster_cols =hclust(dist(cor(df))), fontsize = 20, filename=out, width=30, height=30, na_col="white", border_color="white", device="pdf")
+#t_df <- transpose(df)
+#t_df$colors = splenic_feat_colors
+#e$gtable$grobs[[4]]$gp <- gpar(col=splenic_feat_colors)
 #cols=t_df[order(match(colnames(t_df), e$gtable$grobs[[5]]$label)), ]$colors
-e$gtable$grobs[[5]]$gp=gpar(col=splenic_feat_colors)
-png(out, width=30, height=30)
-grid::grid.newpage()
-grid::grid.draw(e$gtable)
-dev.off()
+#e$gtable$grobs[[5]]$gp=gpar(col=splenic_feat_colors)
+#png(out, width=30, height=30)
+#grid::grid.newpage()
+#grid::grid.draw(e$gtable)
+#dev.off()
 
 
 print("Mesh and Voxel Corr")
@@ -111,10 +112,10 @@ new_df <- read.csv(file2, header=TRUE)
 colnames(new_df) <- gsub('spleen_original_', '',colnames(new_df))
 print(colnames)
 
-new_df = subset(new_df, select = c(glszm_GrayLevelNonUniformity, shape_Sphericity, glcm_Correlation, firstorder_Energy, gldm_SmallDependenceHighGrayLevelEmphasis, gldm_GrayLevelVariance, glszm_LargeAreaLowGrayLevelEmphasis, glrlm_RunLengthNonUniformity, glcm_Id, firstorder_90Percentile, gldm_LargeDependenceHighGrayLevelEmphasis, glszm_SmallAreaLowGrayLevelEmphasis, shape_Flatness, shape_Maximum2DDiameterSlice, age, race_white, race_asian, race_mixed, race_other, ever_smoked,BMI,SBP,HDL.cholesterol,LDL.direct,Triglycerides,Prev_Diabetes_Type_2,Prev_Hypercholesterolemia,Prev_Hypertension,Total.Cholesterol))
+new_df = subset(new_df, select = c(glszm_GrayLevelNonUniformity, shape_Sphericity, glcm_Correlation, firstorder_Energy, gldm_SmallDependenceHighGrayLevelEmphasis, gldm_GrayLevelVariance, glszm_LargeAreaLowGrayLevelEmphasis, glrlm_RunLengthNonUniformity, glcm_Id, glcm_Idn, age, race_white, race_asian, race_mixed, race_other, ever_smoked,BMI,SBP,HDL.cholesterol,LDL.direct,Triglycerides,Prev_Diabetes_Type_2,Prev_Hypercholesterolemia,Prev_Hypertension,Total.Cholesterol))
 
-colnames(new_df)= c("Gray Level Non-Uniformity", "Sphericity", "Correlation", "Energy", "Small Dependence High Gray Level Emphasis", "Gray Level Variance", "Large Area Low Gray Level Emphasis", "Run Length Non-Uniformity", "Inverse Difference", "90th Percentile", "Large Dependence High Gray Level Emphasis", "Small Area Low Gray Level Emphasis", "Flatness", "Max 2D Diameter Slice", "Age", "Race White", "Race Asian", "Race Mixed", "Race Other", "Ever Smoked", "BMI", "SBP", "HDL", "LDL", "Triglycerides", "Prev Type 2 Diabetes", "Prev Hyper cholesterolemia", "Prev Hypertension", "Total Cholesterol")
-splenic_feat_colors <- c('Darkturquoise', 'Brown', 'Red', 'Darkgreen', 'Purple', 'Red', 'Darkturquoise', 'Black', 'Red', 'Darkgreen', 'Brown', 'Purple', 'Darkturquoise', 'Brown')
+colnames(new_df)= c("GLSZM Gray Level Non-Uniformity", "Sphericity", "GLCM Correlation", "Energy", "GLDM Small Dependence High Gray Level Emphasis", "GLDM Gray Level Variance", "GLSZM Large Area Low Gray Level Emphasis", "GLRLM Run Length Non-Uniformity", "GLCM Inverse Difference", "GLCM Inverse Difference Normalized", "Age", "Race White", "Race Asian", "Race Mixed", "Race Other", "Ever Smoked", "BMI", "SBP", "HDL", "LDL", "Triglycerides", "Prev Type 2 Diabetes", "Prev Hyper cholesterolemia", "Prev Hypertension", "Total Cholesterol")
+splenic_feat_colors <- c('Darkturquoise', 'Brown', 'Red', 'Darkgreen', 'Purple', 'Red', 'Darkturquoise', 'Black', 'Red', 'Red')
 
 #corr <- cor(new_df, use="complete.obs")
 #corr <- corr[c("Gray Level Non-Uniformity", "Sphericity", "Correlation", "Energy", "Small Dependence High Gray Level Emphasis", "Gray Level Variance", "Large Area Low Gray Level Emphasis", "Run Length Non-Uniformity", "Inverse Difference", "90th Percentile", "Large Dependence High Gray Level Emphasis", "Small Area Low Gray Level Emphasis", "Flatness", "Max 2D Diameter Slice"),]
@@ -140,6 +141,6 @@ new_df %>%
  theme(axis.text.y = element_text(size=30, color=splenic_feat_colors), axis.text.x = element_text(size=30, angle=90), legend.text = element_text(size=25), legend.title = element_text(size=30))
 
 
-ggsave(out_small, height=15, width=35)
+ggsave(out_small, height=15, width=35, device = "pdf")
 
 

@@ -6,8 +6,8 @@ library(reshape)
 library(scales)
 library(janitor)
 library(cowplot)
-wrap_10 <- wrap_format(15)
-options(repr.plot.width=60, repr.plot.height=60)
+wrap_10 <- wrap_format(25)
+#options(repr.plot.width=60, repr.plot.height=60)
 
 trait = "blood"
 file <- "../Data/radiomics_data/radspleen_wo_heme_cancer.csv"
@@ -22,7 +22,7 @@ if (trait == "adiposity") {
   pretty_feat_cols = c("BMI", "VAT", "ASAT", "BMI-adjusted WHR")
 
   x_label = "Adiposity Marker"
-  out <- "../Data/figures/adiposity_heatmap.png"
+  out <- "../Data/figures/adiposity_heatmap.pdf"
   data_out <- "../Data/figures/adiposity_feat_corr.csv"
   data_out_se <- "../Data/figures/adiposity_feat_corr_se.csv"
 
@@ -33,18 +33,18 @@ if (trait == "adiposity") {
   "Mean.platelet..thrombocyte..volume", "Mean.reticulocyte.volume", "Mean.sphered.cell.volume", "Monocyte.count", "Monocyte.percentage", "Neutrophill.count", "Neutrophill.percentage", "Nucleated.red.blood.cell.count",
   "Nucleated.red.blood.cell.percentage", "Platelet.count", "Platelet.crit", "Platelet.distribution.width", "Red.blood.cell..erythrocyte..count", "Red.blood.cell..erythrocyte..distribution.width", "Reticulocyte.count",
   "Reticulocyte.percentage", "White.blood.cell..leukocyte..count")
-  pretty_feat_cols = c("C Reactive Protein", "Basophill Count", "Basophill Percentage", "Eosinophill Count", "Eosinophill Percentage", "Haematocrit.percentage", "Haemoglobin Concentration", "High Light Scatter Reticulocyte Count",
-  "High Light Scatter Reticulocyte Percentage", "Immature Reticulocyte Fraction", "Lymphocyte Count", "Lymphocyte Percentage", "Mean Corpuscular Haemoglobin", "Mean Corpuscular Haemoglobin Concentration", "Mean Corpuscular Volume",
-  "Mean platelet Volume", "Mean Reticulocyte Volume", "Mean Sphered Cell Volume", "Monocyte Count", "Monocyte Percentage", "Neutrophill Count", "Neutrophill Percentage", "Nucleated RBC Count",
-  "Nucleated RBC Percentage", "Platelet Count", "Plateletcrit", "Platelet Distribution Width", "RBC Count", "RBC Distribution Width", "Reticulocyte Count",
-  "Reticulocyte Percentage", "WBC Count")
+  pretty_feat_cols = c("C Reactive Protein", "Basophill Cnt", "Basophill %", "Eosinophill Cnt", "Eosinophill %", "Haematocrit %", "Hgb Conc", "High Light Scatter Retic Cnt",
+  "High Light Scatter Retic %", "Immature Retic Fraction", "Lymphocyte Cnt", "Lymphocyte %", "Mean Corp. Hgb", "Mean Corp. Hgb Conc", "Mean Corp. Vol",
+  "Mean platelet Vol", "Mean Retic Vol", "Mean Sphered Cell Vol", "Monocyte Cnt", "Monocyte %", "Neutrophill Cnt", "Neutrophill %", "Nucleated RBC Cnt",
+  "Nucleated RBC %", "Platelet Cnt", "Plateletcrit", "Platelet Dist. Width", "RBC Cnt", "RBC Dist. Width", "Retic Cnt",
+  "Retic %", "WBC Cnt")
 
   x_label = "Hematological Marker"
-  out <- "../Data/figures/blood_heatmap.png"
+  out <- "../Data/figures/blood_heatmap.pdf"
   data_out <- "../Data/figures/blood_feat_corr.csv"
   data_out_se <- "../Data/figures/blood_feat_corr_se.csv"
 
-  width <- 30
+  width <- 40
 }
 
 cols <- append(feat_cols, "ID")
@@ -168,14 +168,16 @@ print(head(data_melt, 5))
 
 ggp <- ggplot(data_melt, aes(X1, X2)) +                           # Create heatmap with ggplot2
   geom_tile(aes(fill = value, linewidth = 1)) +
-  scale_fill_gradient2(low="#888BC9", mid = "white", high = "#3A68AE") +
-  labs(x = x_label, y = "Splenic Feature", size = 30) +
-  theme(axis.text.y = element_text(size=25, colour = splenic_feat_colors), axis.text.x = element_text(size=25, angle=90), legend.text = element_text(size=25), legend.title = element_text(size=30))
+  scale_fill_gradient2(low="darkgreen", mid = "white", high = "#3A68AE") +
+  labs(x = x_label, y = "Splenic Feature", size = 40) +
+  theme(axis.text.y = element_text(size=40, colour = splenic_feat_colors), axis.text.x = element_text(size=40, angle=90), legend.text = element_text(size=40), legend.title = element_text(size=40))
 
+ggsave(out, width = width, height = 50, limitsize=FALSE, device = "pdf")
 
-ggsave(out, width = width, height = 25, limitsize = FALSE)
+#ggsave(out, width = width, height = 50, limitsize=FALSE, device = "png")
+#scale_x_discrete(labels = wrap_10(data_melt$X1), expand=c(0,0)) + 
 
-
+#scale_fill_gradient2(low="#888BC9", mid = "white", high = "#3A68AE") +
 
 
 

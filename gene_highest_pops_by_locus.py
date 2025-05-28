@@ -1,7 +1,17 @@
 import pandas as pd
+from argparse import ArgumentParser
 
+if __name__=="__main__":
+    parser = ArgumentParser()
 
-trait = "spleen_original_glcm_Id"
+    parser.add_argument('--trait', '-trait', 
+    	help = "feature", 
+    	default = None, 
+    	type = str)
+
+args = parser.parse_args()
+trait = args.trait
+
 pops_path = "../PoPs/out/r_"+trait+".preds"
 fuma_path = "../Data/fuma_results/"+trait+"/genes.txt"
 out_path = "../Data/fuma_results/"+trait+"/genes_highest_pops.csv"
@@ -26,6 +36,8 @@ print(grouped.head(20))
 grouped = grouped.groupby('GenomicLocus', as_index = False).first().reset_index()
 
 print("grouped %s" %str(grouped.shape))
+print("Unique PoPS genes")
+print(len(grouped.symbol.unique()))
 
 print(grouped.head(20))
 grouped.to_csv(out_path, index=False) 

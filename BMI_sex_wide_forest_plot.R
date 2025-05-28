@@ -12,23 +12,24 @@ file2 <- "../Data/radiomics_data/CAD_pat_char.csv"
 enroll_time <- "../Data/radiomics_data/CAD_coh_time.csv"
 mri_time <- "../Data/radiomics_data/CAD_coh_MRI_time.csv"
 time_out <- "../Data/radiomics_data/CAD_coh_days_to_MRI.csv"
+bonf_correction <- 107
 
 if (trait=="BMI"){
   cols = c("BMI")
-	out <- "../Data/figures/BMI_rad_forest_plot.png"
+	out <- "../Data/figures/BMI_rad_forest_plot.pdf"
 } else if (trait=="sex") {
   cols = c("BMI")
-  out <- "../Data/figures/sex_rad_forest_plot.png"
+  out <- "../Data/figures/sex_rad_forest_plot.pdf"
 } else if (trait == "adiposity") {
   cols = c("BMI", "vat", "asat", "WHRadjbmiInstance2")
-  out <- "../Data/figures/adiposity_rad_forest_plot.png"
+  out <- "../Data/figures/adiposity_rad_forest_plot.pdf"
 } else if (trait == "blood") {
   cols = c("C.reactive.protein", "Basophill.count", "Basophill.percentage", "Eosinophill.count", "Eosinophill.percentage", "Haematocrit.percentage", "Haemoglobin.concentration", "High.light.scatter.reticulocyte.count",
   "High.light.scatter.reticulocyte.percentage", "Immature.reticulocyte.fraction", "Lymphocyte.count", "Lymphocyte.percentage", "Mean.corpuscular.haemoglobin", "Mean.corpuscular.haemoglobin.concentration", "Mean.corpuscular.volume",
   "Mean.platelet..thrombocyte..volume", "Mean.reticulocyte.volume", "Mean.sphered.cell.volume", "Monocyte.count", "Monocyte.percentage", "Neutrophill.count", "Neutrophill.percentage", "Nucleated.red.blood.cell.count",
   "Nucleated.red.blood.cell.percentage", "Platelet.count", "Platelet.crit", "Platelet.distribution.width", "Red.blood.cell..erythrocyte..count", "Red.blood.cell..erythrocyte..distribution.width", "Reticulocyte.count",
   "Reticulocyte.percentage", "White.blood.cell..leukocyte..count")
-  out <- "../Data/figures/blood_rad_forest_plot.png"
+  out <- "../Data/figures/blood_rad_forest_plot.pdf"
 }
 
 cols <- append(cols, "ID")
@@ -70,7 +71,7 @@ print(IQR(final_coh$days_to_MRI))
 
 vec <- names(final_coh)[startsWith(names(final_coh), "spleen_")]
 
-columns = c("Feature", "Coefficient", "Low_95", "Upper_95")
+columns = c("Feature", "Coefficient", "Low_95", "Upper_95", "Bonf")
 coefs = data.frame(matrix(nrow=1, ncol = length(columns))) 
 colnames(coefs) = columns
 
@@ -85,11 +86,14 @@ for (splenic_feat in vec) {
       if (trait == "BMI") {
         coef = summary(m1)$coefficients["BMI", "Estimate"]
         std = summary(m1)$coefficients["BMI", "Std. Error"]
+        bonf = summary(m1)$coefficients["BMI", "Pr(>|t|)"]/bonf_correction
+
       } else {
         coef = summary(m1)$coefficients["sex_Female", "Estimate"]
         std = summary(m1)$coefficients["sex_Female", "Std. Error"]
+        bonf = summary(m1)$coefficients["sex_Female", "Pr(>|t|)"]/bonf_correction
       }
-      new_coef = c(splenic_feat, coef, coef-1.96*std, coef+1.96*std)
+      new_coef = c(splenic_feat, coef, coef-1.96*std, coef+1.96*std, bonf)
       names(new_coef) = columns
       coefs <- rbind(coefs, new_coef)
     } else {
@@ -147,7 +151,8 @@ if (trait == "BMI" | trait == "sex") {
   coefs$Color = splenic_feat_colors
 
   coefs$Coefficient = as.numeric(coefs$Coefficient)
-  coefs =  coefs[order(coefs$Coefficient, decreasing = FALSE),]
+  coefs =  coefs[order(coefs$Color, coefs$Coefficient, decreasing = FALSE),]
+  coefs$Color = ifelse(coefs$Bonf<0.05, coefs$Color, "Gray")
   print(head(coefs, 130))
 
   coefs$Feature <- factor(coefs$Feature, levels = coefs$Feature)
@@ -168,7 +173,7 @@ if (trait == "BMI" | trait == "sex") {
           axis.text.y = element_text(size = 5, colour = coefs$Color),
           axis.text.x.bottom = element_text(size = 8, colour = "black"),
           axis.title.x = element_text(size = 12, colour = "black"))
-  ggsave(out)
+  ggsave(out, device = "pdf")
 } else {
   #aics = aics[1:]
   aics = aics[-1,]
@@ -196,7 +201,7 @@ if (trait == "BMI" | trait == "sex") {
           axis.text.y = element_text(size = 4, colour = "black"),
           axis.text.x.bottom = element_text(size = 8, colour = "black"),
           axis.title.x = element_text(size = 12, colour = "black"))
-  ggsave(out)
+  ggsave(out, device = "pdf")
 
 }
 
