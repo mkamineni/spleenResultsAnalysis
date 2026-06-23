@@ -12,18 +12,18 @@ Analyses integrate spleen radiomic features with clinical phenotypes, cardiovasc
 
 ## Repository Structure
 
-* **Visualization scripts**: generation of forest plots, radiomics feature plots, heatmaps, and summary figures
-* **Biomarker analyses**: associations between spleen imaging features, adiposity measures, and blood biomarkers
-* **Genetic follow-up analyses**: overlap of spleen-associated variants with CAD loci, SNP comparison analyses, and gene prioritization
-* **Gene prioritization**: integration of PoPS and nearest-gene approaches for candidate gene identification
+- **Visualization scripts**: generation of forest plots, radiomics feature plots, heatmaps, and summary figures
+- **Biomarker analyses**: associations between spleen imaging features, adiposity measures, and blood biomarkers
+- **Genetic follow-up analyses**: overlap of spleen-associated variants with CAD loci, SNP comparison analyses, and gene prioritization
+- **Gene prioritization**: integration of PoPS and nearest-gene approaches for candidate gene identification
 
 ## Related Repositories
 
 This repository is part of the *Spleen Radiomics and Coronary Artery Disease* project.
 
-* spleenCADImaging
-* spleenCADgenetics
-* spleen_replication
+- **spleenCADImaging**
+- **spleenCADgenetics**
+- **spleen_replication**
 
 ## Publication
 
